@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Gift Club – Officially Unbothered</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="dark">
+    <header class="site-header">
+      <div class="brand">
+        <div class="heart" aria-hidden="true"></div>
+        <span class="logo">No Gift Club</span>
+      </div>
+      <div class="actions">
+        <button id="toggleMode" class="btn ghost" aria-label="Toggle theme">Dark Mode</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero / No Gift Club -->
+      <section class="section hero" id="hero">
+        <h1>Welcome to The No Gift Club</h1>
+        <p class="sub">If nobody bought you chocolate, you're still single.</p>
+        <div class="counter" aria-live="polite">
+          <span class="count" id="giftCount">0</span>
+          <span class="label">gifts received</span>
+        </div>
+        <div class="awards">
+          <div class="award">🏆 Strongest Single</div>
+          <div class="award">🏆 Most Peaceful Wallet</div>
+        </div>
+        <button id="claimImaginary" class="btn primary">Claim Your Imaginary Gift</button>
+        <p id="imaginaryOutput" class="output" aria-live="polite"></p>
+        <div class="quest-cta">
+          <button id="startQuest" class="btn">Start Valentine Quest</button>
+          <button id="startRehab" class="btn ghost">Open Rehab Center</button>
+        </div>
+      </section>
+
+      <!-- Fake Gift Generator -->
+      <section class="section generator" id="generator">
+        <h2>Fake Gift Generator</h2>
+        <p>Very meme-style. Screenshot-worthy.</p>
+        <button id="generateGift" class="btn">Generate Gift</button>
+        <div id="giftResult" class="card output" aria-live="polite"></div>
+      </section>
+
+      <!-- Reasons -->
+      <section class="section reasons" id="reasons">
+        <h2>Why Being Single Today Is a Win</h2>
+        <div class="grid">
+          <div class="card">No forced captions</div>
+          <div class="card">No expensive dates</div>
+          <div class="card">Full control of Netflix</div>
+          <div class="card">Zero heartbreak tonight</div>
+          <div class="card">Calendar: free, wallet: smiling</div>
+          <div class="card">Sleep + skincare &gt; bare-minimum romance</div>
+        </div>
+      </section>
+
+      <!-- Roast Wall -->
+      <section class="section roast" id="roast">
+        <h2>Friendly Roast Wall</h2>
+        <p class="hint">Self-roast only. Be kind.</p>
+        <form id="roastForm" class="roast-form" autocomplete="off">
+          <input id="roastInput" type="text" maxlength="140" placeholder="I survived Valentine's Day without a single text" />
+          <button type="submit" class="btn">Post</button>
+        </form>
+        <ul id="roastList" class="roast-list"></ul>
+      </section>
+
+      <!-- AI Fake Love Letters -->
+      <section class="section letters" id="letters">
+        <h2>AI Fake Love Letters</h2>
+        <button id="generateLetter" class="btn">Generate a Valentine for Me</button>
+        <div id="letterOutput" class="card output"></div>
+        <button id="copyLetter" class="btn ghost">Copy</button>
+      </section>
+
+      <!-- Moment of Silence -->
+      <section class="section moment" id="moment">
+        <h2>Moment of Silence</h2>
+        <p>In memory of gifts that never came.</p>
+        <button id="playMoment" class="btn">Play 7 Seconds</button>
+        <p class="tiny">Press play for 7 seconds of cinematic serenity.</p>
+      </section>
+
+      <!-- Screenshot Zone -->
+      <section class="section screenshot" id="screenshot">
+        <h2>Screenshot Zone</h2>
+        <p>Screenshot this page and prove you survived Valentine's Day.</p>
+        <canvas id="badgeCanvas" width="720" height="360" class="badge"></canvas>
+        <button id="downloadBadge" class="btn">Download Badge</button>
+        <p class="tiny">Badge: Officially Unbothered – 14 Feb</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Single ≠ lonely. Single = peaceful today.</p>
+      <p class="made">Made with love for the unbothered.</p>
+    </footer>
+
+    <!-- Quest Mode Overlay -->
+    <div id="questOverlay" class="overlay" aria-hidden="true">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Valentine Quest</h3>
+          <button id="closeQuest" class="btn ghost">Close</button>
+        </div>
+        <div class="modal-body">
+          <!-- Screen: Intro / Level navigation -->
+          <div id="screenIntro" class="screen active">
+            <p class="sub">Survive Valentine's Day by clearing three chaotic levels.</p>
+            <div class="grid">
+              <div class="card">Level 1: Expectation Check</div>
+              <div class="card">Level 2: Message Hunt</div>
+              <div class="card">Level 3: Gift Detection Test</div>
+            </div>
+            <button id="beginLevel1" class="btn primary">Start Level 1</button>
+          </div>
+
+          <!-- Level 1 -->
+          <div id="screenL1" class="screen">
+            <h4>Level 1: Expectation Check</h4>
+            <p>Did you secretly expect a gift?</p>
+            <div class="choices">
+              <button class="btn" data-choice="yes">Yes</button>
+              <button class="btn" data-choice="no">No</button>
+              <button class="btn" data-choice="maybe">Not sure</button>
+            </div>
+            <p id="l1Feedback" class="output"></p>
+            <button id="toLevel2" class="btn" disabled>Continue to Level 2</button>
+          </div>
+
+          <!-- Level 2 -->
+          <div id="screenL2" class="screen">
+            <h4>Level 2: Message Hunt</h4>
+            <p>Find the hidden Valentine message. Click anywhere.</p>
+            <div id="huntArea" class="hunt-area" tabindex="0"></div>
+            <p id="huntFeedback" class="output"></p>
+            <button id="toLevel3" class="btn" disabled>Continue to Level 3</button>
+          </div>
+
+          <!-- Level 3 -->
+          <div id="screenL3" class="screen">
+            <h4>Level 3: Gift Detection Test</h4>
+            <p>Tap the real gift among falling ones. Hurry!</p>
+            <div class="fall-area" id="fallArea"></div>
+            <div class="row">
+              <button id="startFall" class="btn primary">Start Test</button>
+              <button id="finishQuest" class="btn" disabled>Finish Quest</button>
+            </div>
+            <p id="fallFeedback" class="output"></p>
+          </div>
+
+          <!-- Ending -->
+          <div id="screenEnd" class="screen">
+            <h4 id="endingTitle">Ending</h4>
+            <p id="endingText" class="sub"></p>
+            <canvas id="certCanvas" width="720" height="420" class="badge"></canvas>
+            <button id="downloadCert" class="btn">Download Certificate</button>
+            <button id="restartQuest" class="btn ghost">Play Again</button>
+          </div>
+
+          <!-- Voice Button and Secret Codes note -->
+          <div class="extras">
+            <button id="voiceBtn" class="btn ghost">Hear Your Valentine</button>
+            <p class="tiny">Psst: type LOVE anywhere for a surprise.</p>
+          </div>
+        </div>
+      </div>
+      <div id="crackOverlay" class="crack" aria-hidden="true"></div>
+    </div>
+
+    <!-- Rehab Center Overlay -->
+    <div id="rehabOverlay" class="overlay" aria-hidden="true">
+      <div class="modal">
+        <div class="modal-header">
+          <h3>Valentine Rehab Center</h3>
+          <button id="closeRehab" class="btn ghost">Close</button>
+        </div>
+        <div class="modal-body">
+          <!-- Gate -->
+          <div id="rehabGate" class="screen active">
+            <p class="sub">If you received a Valentine gift, please close this website.</p>
+            <div class="choices">
+              <button class="btn" id="btnGotNothing">I got nothing 😭</button>
+              <button class="btn" id="btnHereToLaugh">I’m just here to laugh 😂</button>
+            </div>
+          </div>
+
+          <!-- Check-in -->
+          <div id="rehabCheckin" class="screen">
+            <h4>Single Squad Check-In</h4>
+            <label for="rehabName">Enter your name to sign the Valentine Attendance Register</label>
+            <div class="row">
+              <input id="rehabName" type="text" placeholder="e.g., Ada" />
+              <button id="rehabSign" class="btn primary">Check In</button>
+            </div>
+            <p id="rehabWelcome" class="output"></p>
+            <p id="rehabOnline" class="tiny">Total singles online: 7 (and counting)</p>
+            <button id="goDashboard" class="btn" disabled>Enter Rehab Dashboard</button>
+          </div>
+
+          <!-- Dashboard -->
+          <div id="rehabDash" class="screen">
+            <h4>Community Valentine Stats</h4>
+            <div class="grid">
+              <div class="card" id="statMessages">💌 Total messages received by all users: 2 (both spam)</div>
+              <div class="card" id="statGifts">🎁 Total gifts: 0</div>
+              <div class="card" id="statChoc">🍫 Chocolates shared: 0</div>
+              <div class="card" id="statMoney">💸 Money saved collectively: ₦A LOT</div>
+            </div>
+            <hr/>
+            <div class="grid">
+              <div class="card">
+                <h5>Who Had It Worse? (Spin)</h5>
+                <div class="wheel" id="rehabWheel"></div>
+                <button id="spinWheel" class="btn">Spin</button>
+                <p id="spinResult" class="output"></p>
+              </div>
+              <div class="card">
+                <h5>Group Chat Simulator</h5>
+                <div class="chat-list" id="chatList"></div>
+                <div class="row"><button id="playChat" class="btn">Play Chat</button><button id="resetChat" class="btn ghost">Reset</button></div>
+              </div>
+            </div>
+            <hr/>
+            <div class="grid">
+              <div class="card">
+                <h5>Collective Gift Opening</h5>
+                <button id="openCollectiveGift" class="btn primary">Open Our Valentine Gift</button>
+                <p id="collectiveGiftOut" class="output"></p>
+              </div>
+              <div class="card">
+                <h5>Single Personality Test</h5>
+                <button id="getPersonality" class="btn">Get Tag</button>
+                <p id="personalityOut" class="output"></p>
+              </div>
+            </div>
+            <hr/>
+            <div class="grid">
+              <div class="card">
+                <h5>Expectation Graveyard</h5>
+                <div class="graveyard" id="graveyard">
+                  <div class="stone">RIP: Group Valentine Plans</div>
+                  <div class="stone">RIP: ‘Let’s hang out with our partners’</div>
+                  <div class="stone">RIP: Romantic February</div>
+                </div>
+              </div>
+              <div class="card">
+                <h5>Emergency Group Button</h5>
+                <button id="callLoverBtn" class="btn">CALL LOVER FOR ALL OF US</button>
+                <p id="callLoverOut" class="output"></p>
+              </div>
+            </div>
+            <hr/>
+            <div class="card">
+              <h5>Final Screen: Group Certificate</h5>
+              <canvas id="groupCertCanvas" width="720" height="420" class="badge"></canvas>
+              <div class="row"><button id="downloadGroupCert" class="btn">Download</button><button id="refreshGroupCert" class="btn ghost">Refresh</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+  </html>
